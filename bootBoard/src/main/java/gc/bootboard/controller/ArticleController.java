@@ -28,9 +28,9 @@ public class ArticleController {
 
     @GetMapping("{articleId}")
     public String articles(@PathVariable Long articleId, ModelMap map) {
-        map.addAttribute("articles", "article"); // TODO: 구현할 때, "article" 대신 실제 데이터를 작성해야 합니다. 
-        map.addAttribute("articlesComments", List.of());
+        map.addAttribute("article", "article"); // TODO: 구현할 때, "article" 대신 실제 데이터를 작성해야 합니다.
+        map.addAttribute("articleComments", List.of());
 
-        return "articles/index";
+        return "articles/detail";
     }
 }

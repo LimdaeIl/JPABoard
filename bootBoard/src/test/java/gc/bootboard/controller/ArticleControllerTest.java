@@ -40,7 +40,6 @@ class ArticleControllerTest {
     }
 
     // articles/{article-id}	GET	게시글 페이지
-    @Disabled("현재 구현 중입니다.")
     @DisplayName("[view][GET] 게시글 상세 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestArticleView_thenReturnsArticleView() throws Exception {
