@@ -7,39 +7,29 @@ import java.util.Objects;
 
 @Getter
 @ToString
-@Table( indexes = {
+@Table(indexes = {
         @Index(columnList = "userId"),
         @Index(columnList = "email", unique = true),
-        @Index(columnList = "createAt"),
-        @Index(columnList = "createBy")
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "createdBy")
 })
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class UserAccount {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserAccount extends AuditingFields {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Column(nullable = false, length = 50)
-    private String userId;
+    @Setter @Column(nullable = false, length = 50) private String userId;
+    @Setter @Column(nullable = false) private String userPassword;
 
-    @Setter
-    @Column(nullable = false)
-    private String userPassword;
+    @Setter @Column(length = 100) private String email;
+    @Setter @Column(length = 100) private String nickname;
+    @Setter private String memo;
 
-    @Setter
-    @Column(length = 100)
-    private String email;
 
-    @Setter
-    @Column(length = 100)
-    private String nickname;
+    protected UserAccount() {}
 
-    @Setter
-    private String memo;
-
-    public UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
+    private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
@@ -47,15 +37,20 @@ public class UserAccount {
         this.memo = memo;
     }
 
+    public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo) {
+        return new UserAccount(userId, userPassword, email, nickname, memo);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserAccount that)) return false;
-        return id != null && Objects.equals(id, that.id);
+        if (!(o instanceof UserAccount userAccount)) return false;
+        return id != null && id.equals(userAccount.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
